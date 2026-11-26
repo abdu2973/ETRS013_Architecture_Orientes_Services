@@ -37,19 +37,7 @@ info802-trajet-ve/
 
 ---
 
-## Installation et Exécution Locale (Service SOAP)
-
-```bash
-cd soap_service
-pip install -r requirements.txt
-python soap_service.py
-```
-
-Le contrat **WSDL** du service est ensuite accessible à l'adresse : `[http://127.0.0.1:8000/?wsdl](http://127.0.0.1:8000/?wsdl)`
-
----
-
 ## Déploiement Cloud
 
-* **URL du dépôt Git :** *À compléter*
+* **URL du dépôt Git :(https://github.com/abdu2973/ETRS013_Architecture_Orientes_Services/blob/main/README.md)
 * **URL de l'application / WSDL :** *À compléter*
