@@ -46,5 +46,4 @@ Une fois lancé, le descripteur **WSDL** est accessible sur : `http://127.0.0.1:
 
 ## Déploiement Cloud
 
-* **URL du dépôt Git :** *À compléter*
 * **URL de l'application / WSDL :** *À compléter*
