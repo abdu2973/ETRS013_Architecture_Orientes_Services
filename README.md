@@ -1,8 +1,8 @@
-# Planificateur de Trajet en Véhicule Électrique (INFO802)
+# Planificateur de Trajet en Véhicule Électrique (ETRS013)
 
 Application Web en **Architecture Orientée Services (SOA)** permettant de calculer un itinéraire en véhicule électrique selon son autonomie, la distance et les arrêts de recharge nécessaires.
 
-* **Formation :** Université Savoie Mont Blanc (USMB) — Module INFO802 / ETRS013
+* **Formation :** Université Savoie Mont Blanc (USMB) — Module ETRS013
 * **Auteur :** Abdul Hamid Turkan
 
 ---
