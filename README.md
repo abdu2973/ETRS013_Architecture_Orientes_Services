@@ -33,3 +33,23 @@ info802-trajet-ve/
     ├── soap_service.py
     ├── requirements.txt
     └── Procfile
+```
+
+---
+
+## Installation et Exécution Locale (Service SOAP)
+
+```bash
+cd soap_service
+pip install -r requirements.txt
+python soap_service.py
+```
+
+Le contrat **WSDL** du service est ensuite accessible à l'adresse : `[http://127.0.0.1:8000/?wsdl](http://127.0.0.1:8000/?wsdl)`
+
+---
+
+## Déploiement Cloud
+
+* **URL du dépôt Git :** *À compléter*
+* **URL de l'application / WSDL :** *À compléter*
