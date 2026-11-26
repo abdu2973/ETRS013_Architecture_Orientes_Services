@@ -20,7 +20,7 @@ Application Web en **Architecture Orientée Services (SOA)** permettant de calcu
 ## Structure du Projet
 
 ```text
-info802-trajet-ve/
+ETRS013_Architecture_Orientes_Services/
 ├── README.md              # Documentation générale du projet
 └── soap_service/          # Brique 1 : Service Web SOAP
     ├── soap_service.py    # Code du serveur SOAP (Python / Spyne)
