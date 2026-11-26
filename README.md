@@ -1,55 +1,57 @@
 # Planificateur de Trajet en Véhicule Électrique (INFO802)
 
-Application Web en **Architecture Orientée Services (SOA)** permettant de calculer un itinéraire en véhicule électrique selon son autonomie, la distance et les arrêts de recharge nécessaires.
+Application Web reposant sur une **Architecture Orientée Services (SOA)** permettant de planifier un itinéraire en véhicule électrique en tenant compte de l'autonomie du véhicule, du temps de trajet et des arrêts de recharge nécessaires.
 
 * **Formation :** Université Savoie Mont Blanc (USMB) — Module INFO802 / ETRS013
 * **Auteur :** Abdul Hamid Turkan
 
 ---
 
-## Architecture des Services
+## Architecture Globale des Services
 
-1. **Service SOAP (`soap_service/`) — *[Déployé sur le Cloud]*** : Calcule le temps total de trajet (conduite + recharges) et le nombre d'arrêts à partir de la distance, de l'autonomie et de la durée de charge.
-2. **Service REST (Bornes IRVE)** : Récupère les stations de recharge proches des points d'arrêt GPS (OpenData Réseaux Énergies).
-3. **Service REST (Cartographie)** : Calcule l'itinéraire routier et affiche la carte interactive (OpenRouteService / Folium).
-4. **Service GraphQL (Véhicules)** : Fournit la liste des véhicules électriques et leur autonomie (API Chargetrip).
-5. **API REST exposée** : Expose un endpoint JSON permettant à un client tiers d'utiliser le calculateur avec une autre interface.
+Le projet s'articule autour de 5 briques :
+
+1. **Service SOAP (`soap_service/`) — *[Déployé]*** : Calcule le temps total de trajet (temps de conduite + recharges) et le nombre d'arrêts nécessaires à partir de la distance, de l'autonomie et de la durée de charge.
+2. **Service REST — Bornes de recharge (IRVE)** : Recherche les stations de recharge disponibles à proximité des coordonnées GPS d'arrêt (OpenData Réseaux Énergies).
+3. **Service REST — Cartographie & Itinéraire** : Calcule le tracé routier et génère la carte interactive (OpenRouteService / Folium).
+4. **Service GraphQL — Catalogue de véhicules** : Récupère la liste des véhicules électriques et leurs caractéristiques techniques (API Chargetrip).
+5. **API REST exposée** : Met à disposition un endpoint JSON permettant à une application tierce d'exploiter le service avec une autre interface.
 
 ---
 
-## Structure du Projet
+## Structure du Dépôt
 
 ```text
 ETRS013_Architecture_Orientes_Services/
-├── README.md              # Documentation générale du projet
-└── soap_service/          # Brique 1 : Service Web SOAP
-    ├── soap_service.py    # Code du serveur SOAP (Python / Spyne)
-    ├── requirements.txt   # Liste des librairies Python installées automatiquement par le Cloud
-    ├── Procfile           # Commande de démarrage du serveur exécutée par l'hébergeur Cloud
-    └── test.py            # Script client Zeep pour tester le service à distance
+├── README.md              # Documentation globale du projet
+└── soap_service/          # Brique 1 : Service Web SOAP (Python / Spyne)
+    ├── soap_service.py    # Code du serveur SOAP et définition des opérations RPC
+    ├── requirements.txt   # Dépendances Python installées par la plateforme Cloud
+    ├── Procfile           # Commande de démarrage du serveur sur le Cloud
+    └── test.py            # Script client Zeep pour interroger le service à distance
 ```
 
 ---
 
-## Déploiement Cloud & Accès au Service
+## Hébergement Cloud & Accès au Service SOAP
 
-### 1. Source et infrastructure d'hébergement
-* **Hébergeur Cloud :** [Render](https://render.com) (instance Web Service gratuite).
-* **Déploiement continu :** Le serveur est directement relié au dossier `soap_service/` de ce dépôt GitHub (`branche main`). À chaque mise à jour du code, Render installe les dépendances (`pip install -r requirements.txt`) et démarre le serveur (`python soap_service.py`).
-* **Technologies :** Python, Spyne (protocole SOAP 1.1) et `wsgiref`.
+### Source et infrastructure
+* **Plateforme Cloud :** [Render](https://render.com) (instance Web Service gratuite).
+* **Source du déploiement :** Déploiement continu connecté au dépôt GitHub `abdu2973/ETRS013_Architecture_Orientes_Services` (branche `main`, répertoire racine `soap_service/`).
+* **Stack technique :** Python, Spyne (protocole SOAP 1.1) et serveur WSGI (`wsgiref`).
 
-### 2. Comment démarrer (réveiller) le service Cloud
-L'instance gratuite de Render se met automatiquement en veille après **15 minutes d'inactivité**. Avant d'interroger le service depuis un client Python :
-1. Clique sur le lien **Descripteur WSDL** ci-dessous pour envoyer une première requête HTTP.
-2. Patienter **30 à 60 secondes** le temps que le conteneur redémarre et affiche le fichier XML WSDL dans ton navigateur.
-3. Une fois le XML affiché, le serveur est actif et répond instantanément aux appels SOAP.
+### Démarrage (réveil) de l'instance Cloud
+L'instance gratuite Render se met automatiquement en veille après **15 minutes d'inactivité**. Pour démarrer le service avant une utilisation :
+1. Ouvrir l'URL du **Descripteur WSDL** dans un navigateur (ou lancer une première requête client) afin de déclencher le réveil du conteneur.
+2. Patienter **30 à 60 secondes** jusqu'à l'affichage du document XML WSDL.
+3. Le service est alors actif et prêt à traiter les requêtes SOAP.
 
-### 3. Liens d'accès
-* **Dépôt Git du projet :** https://github.com/abdu2973/ETRS013_Architecture_Orientes_Services
-* **Descripteur WSDL du service SOAP :** https://etrs013-architecture-orientes-services.onrender.com/?wsdl
-* **Endpoint SOAP (URL racine) :** https://etrs013-architecture-orientes-services.onrender.com
+### Liens d'accès
+* **Dépôt Git :** https://github.com/abdu2973/ETRS013_Architecture_Orientes_Services
+* **Descripteur WSDL (Service SOAP) :** https://etrs013-architecture-orientes-services.onrender.com/?wsdl
+* **Endpoint SOAP :** https://etrs013-architecture-orientes-services.onrender.com
 
-### 4. Exemple d'appel client à distance (Python / Zeep)
+### Exemple d'appel client (Python / Zeep)
 ```python
 from zeep import Client
 from zeep.transports import Transport
@@ -64,14 +66,14 @@ resultat = client.service.calculer_temps_trajet(
     autonomie=100,
     temps_chargement=30
 )
-print(resultat)  # Affiche : 7h27 (4 recharge(s))
+print(resultat)  # Résultat : 7h27 (4 recharge(s))
 ```
 
 ---
 
-## Exécution Locale (Tests sur PC)
+## Exécution Locale
 
-Pour exécuter le serveur SOAP en local avant déploiement :
+Pour lancer le serveur SOAP en local :
 
 ```bash
 cd soap_service
@@ -79,4 +81,4 @@ pip install -r requirements.txt
 python soap_service.py
 ```
 
-Le WSDL local est ensuite accessible sur `http://127.0.0.1:8000/?wsdl`.
+Le descripteur WSDL local est accessible à l'adresse : `http://127.0.0.1:8000/?wsdl`.
