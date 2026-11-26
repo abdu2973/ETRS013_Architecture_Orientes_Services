@@ -41,7 +41,7 @@ ETRS013_Architecture_Orientes_Services/
 ### 2. Comment démarrer (réveiller) le service Cloud
 L'instance gratuite de Render se met automatiquement en veille après **15 minutes d'inactivité**. Avant d'interroger le service depuis un client Python :
 1. Clique sur le lien **Descripteur WSDL** ci-dessous pour envoyer une première requête HTTP.
-2. Patiente **30 à 60 secondes** le temps que le conteneur redémarre et affiche le fichier XML WSDL dans ton navigateur.
+2. Patienter **30 à 60 secondes** le temps que le conteneur redémarre et affiche le fichier XML WSDL dans ton navigateur.
 3. Une fois le XML affiché, le serveur est actif et répond instantanément aux appels SOAP.
 
 ### 3. Liens d'accès
