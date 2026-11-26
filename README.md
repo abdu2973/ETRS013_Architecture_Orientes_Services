@@ -38,6 +38,4 @@ info802-trajet-ve/
 ---
 
 ## Déploiement Cloud
-
-* **URL du dépôt Git :(https://github.com/abdu2973/ETRS013_Architecture_Orientes_Services/blob/main/README.md)
 * **URL de l'application / WSDL :** *À compléter*
